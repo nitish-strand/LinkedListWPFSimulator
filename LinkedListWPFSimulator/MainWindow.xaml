@@ -1,0 +1,58 @@
+﻿<Window x:Class="LinkedListWPFSimulator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:LinkedListWPFSimulator.ViewModels"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:LinkedListViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" />
+                    <MenuItem Header="_Refresh" />
+                    <MenuItem Header="_Reset" />
+                    <Separator />
+                    <MenuItem Header="_Exit" />
+                </MenuItem>
+                <MenuItem Header="_Help">
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+
+        <GroupBox Header="Add List Head" Grid.Row="1" Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" Margin="5">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                <Label Content="Enter the head node value:- " Margin="5"/>
+                <TextBox x:Name="headNode" Text="{Binding HeadNode}" ToolTip="Enter the head node value." Width="100" Padding="2" Margin="5"/>
+                <Button Command="{Binding PushNewHead}" CommandParameter="{Binding ElementName=headNode}" Content="Enter" Padding="5" Margin="5"/>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Grid.Row="2">
+
+            <ListBox ItemsSource="{Binding ListofLinkedLists}" Margin="2" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <!--<ListBox ItemsSource="{Binding LinkedListNodes}" Margin="2">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel IsItemsHost="True" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                </ListBox>-->
+            </ListBox>
+            
+        </StackPanel>
+
+
+    </Grid>
+</Window>

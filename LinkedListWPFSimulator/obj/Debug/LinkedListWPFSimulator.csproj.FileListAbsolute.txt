@@ -1,0 +1,15 @@
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\LinkedListWPFSimulator.csprojAssemblyReference.cache
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\MainWindow.g.cs
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\App.g.cs
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\LinkedListWPFSimulator_MarkupCompile.cache
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\LinkedListWPFSimulator_MarkupCompile.lref
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\bin\Debug\LinkedListWPFSimulator.exe.config
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\bin\Debug\LinkedListWPFSimulator.exe
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\bin\Debug\LinkedListWPFSimulator.pdb
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\MainWindow.baml
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\LinkedListWPFSimulator.g.resources
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\LinkedListWPFSimulator.Properties.Resources.resources
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\LinkedListWPFSimulator.csproj.GenerateResource.cache
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\LinkedListWPFSimulator.exe
+C:\Users\nitish\source\repos\LinkedListWPFSimulator\LinkedListWPFSimulator\obj\Debug\LinkedListWPFSimulator.pdb

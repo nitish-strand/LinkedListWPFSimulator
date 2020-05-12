@@ -4,6 +4,7 @@ using System.Windows.Input;
 using LinkedListWPFSimulator.Commands;
 using System.Windows;
 using System.Collections.ObjectModel;
+using System;
 
 namespace LinkedListWPFSimulator.ViewModels
 {
@@ -58,8 +59,23 @@ namespace LinkedListWPFSimulator.ViewModels
 		private void AddNodeExecute(object obj)
 		{
 			MessageBox.Show("Add node");
+			System.Console.WriteLine(obj.ToString());
 
-			System.Console.WriteLine(obj);
+			foreach(ListBox lists in ListofLinkedLists)
+			{
+				foreach(Button btn in lists.CommandBindings)
+				{
+					if (btn.CommandParameter.Equals(obj.ToString()))
+					{
+						Console.WriteLine(LinkedList.IndexOf(btn));
+					}
+					else
+					{
+						Console.WriteLine();
+					}
+				}
+			}
+
 		}
 
 		public ICommand RemoveNode { get; set; }
@@ -67,6 +83,7 @@ namespace LinkedListWPFSimulator.ViewModels
 		private void RemoveNodeExecute(object obj)
 		{
 			MessageBox.Show("Remove node");
+			System.Console.WriteLine(obj.ToString());
 		}
 
 		public ICommand ChangeValue { get; set; }
@@ -76,6 +93,7 @@ namespace LinkedListWPFSimulator.ViewModels
 			MessageBox.Show("Change node value");
 		}
 
+		
 		private void PushNewHeadExecute(object obj)
 		{
 			Button btn = new Button();
@@ -96,6 +114,7 @@ namespace LinkedListWPFSimulator.ViewModels
 		}
 
 		//helper functions
+		private int nodeAddress = 0;
 		private ContextMenu AddContextMenu()
 		{
 			ContextMenu cm = new ContextMenu();
@@ -103,20 +122,38 @@ namespace LinkedListWPFSimulator.ViewModels
 			MenuItem add = new MenuItem();
 			add.Header = "Add";
 			add.Command = AddNode;
+			add.CommandParameter = "Add" + Convert.ToString(++nodeAddress);
+			add.Tag = "Add" + Convert.ToString(++nodeAddress);
 
 			MenuItem rem = new MenuItem();
 			rem.Header = "Remove";
 			rem.Command = RemoveNode;
+			rem.CommandParameter = "Remove" + Convert.ToString(++nodeAddress);
+			rem.Tag = "Remove" + Convert.ToString(++nodeAddress);
 
 			MenuItem chv = new MenuItem();
 			chv.Header = "Change Value";
 			chv.Command = ChangeValue;
+			chv.CommandParameter = "Change Value" + Convert.ToString(++nodeAddress);
+			chv.Tag = "Change Value" + Convert.ToString(++nodeAddress);
 
 			cm.Items.Add(add);
 			cm.Items.Add(rem);
 			cm.Items.Add(chv);
 
 			return cm;
+		}
+
+		private Button CreateNode()
+		{
+			Button btn = new Button();
+			btn.Content = HeadNode;
+			btn.MinHeight = 50;
+			btn.MinWidth = 50;
+			btn.Margin = new Thickness(0);
+
+			btn.ContextMenu = AddContextMenu();
+			return btn;
 		}
 
 	}

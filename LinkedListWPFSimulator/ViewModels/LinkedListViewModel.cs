@@ -34,8 +34,8 @@ namespace LinkedListWPFSimulator.ViewModels
 			}
 		}
 
-		public ObservableCollection<ObservableCollection<Button>> ListofLinkedLists { get; set; } = new ObservableCollection<ObservableCollection<Button>>();
-		public ObservableCollection<Button> LinkedList { get; set; } = new ObservableCollection<Button>();
+		public ObservableCollection<ListBox> ListofLinkedLists { get; set; } = new ObservableCollection<ListBox>();
+		public ObservableCollection<Button> LinkedList { get; set; }
 
 		//Commands
 		public ICommand PushNewHead { get; set; }
@@ -58,6 +58,8 @@ namespace LinkedListWPFSimulator.ViewModels
 		private void AddNodeExecute(object obj)
 		{
 			MessageBox.Show("Add node");
+
+			System.Console.WriteLine(obj);
 		}
 
 		public ICommand RemoveNode { get; set; }
@@ -84,15 +86,13 @@ namespace LinkedListWPFSimulator.ViewModels
 
 			btn.ContextMenu = AddContextMenu();
 
+			LinkedList = new ObservableCollection<Button>();
+
 			LinkedList.Add(btn);
 			ListBox HeadofLinkList = new ListBox();
 			HeadofLinkList.ItemsSource = LinkedList;
 
-			ListofLinkedLists.Add(LinkedList);
-			ListBox ListofLists = new ListBox();
-			ListofLists.ItemsSource = ListofLinkedLists;
-
-			
+			ListofLinkedLists.Add(HeadofLinkList);
 		}
 
 		//helper functions

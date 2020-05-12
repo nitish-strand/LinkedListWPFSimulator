@@ -39,19 +39,12 @@
             </StackPanel>
         </GroupBox>
 
-        <StackPanel Grid.Row="2">
-
-            <ListBox ItemsSource="{Binding ListofLinkedLists}" Margin="2" ScrollViewer.VerticalScrollBarVisibility="Visible">
-                <!--<ListBox ItemsSource="{Binding LinkedListNodes}" Margin="2">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel IsItemsHost="True" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                </ListBox>-->
-            </ListBox>
-            
-        </StackPanel>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Grid.Row="2">
+                <ListBox ItemsSource="{Binding ListofLinkedLists}" Margin="2">
+                </ListBox>
+            </StackPanel>
+        </ScrollViewer>
 
 
     </Grid>

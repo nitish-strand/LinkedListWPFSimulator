@@ -5,6 +5,8 @@ using LinkedListWPFSimulator.Commands;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System;
+using System.Collections.Generic;
+using System.Xaml;
 
 namespace LinkedListWPFSimulator.ViewModels
 {
@@ -61,19 +63,19 @@ namespace LinkedListWPFSimulator.ViewModels
 			MessageBox.Show("Add node");
 			System.Console.WriteLine(obj.ToString());
 
-			foreach(ListBox lists in ListofLinkedLists)
+			foreach (ListBox lists in ListofLinkedLists)
 			{
-				foreach(Button btn in lists.CommandBindings)
+				LinkedList = new ObservableCollection<Button>();
+				foreach (Button btn in lists.ItemsSource)
 				{
-					if (btn.CommandParameter.Equals(obj.ToString()))
+					LinkedList.Add(btn);
+					if (btn.Name.Equals(obj.ToString()))
 					{
-						Console.WriteLine(LinkedList.IndexOf(btn));
-					}
-					else
-					{
-						Console.WriteLine();
+						LinkedList.Add(CreateNode("NewNode"));
+						//lists.ItemsSource.Add(CreateNode("NewNode"));
 					}
 				}
+				lists.ItemsSource = LinkedList;
 			}
 
 		}
@@ -93,49 +95,55 @@ namespace LinkedListWPFSimulator.ViewModels
 			MessageBox.Show("Change node value");
 		}
 
-		
+		private int nodeAddress = 0;
 		private void PushNewHeadExecute(object obj)
 		{
+			++nodeAddress;
+			string nodeAddressStr = "Node" + Convert.ToString(nodeAddress);
+
 			Button btn = new Button();
 			btn.Content = HeadNode;
 			btn.MinHeight = 50;
 			btn.MinWidth = 50;
 			btn.Margin = new Thickness(0);
+			btn.Name = nodeAddressStr;
 
-			btn.ContextMenu = AddContextMenu();
+			btn.ContextMenu = AddContextMenu(nodeAddressStr);
 
 			LinkedList = new ObservableCollection<Button>();
 
 			LinkedList.Add(btn);
 			ListBox HeadofLinkList = new ListBox();
 			HeadofLinkList.ItemsSource = LinkedList;
+			
+			var nw = new FrameworkElementFactory(typeof(WrapPanel));
 
+			ItemsPanelTemplate panelTemp = new ItemsPanelTemplate();
+			panelTemp.VisualTree = nw;
+
+			HeadofLinkList.ItemsPanel = panelTemp;
 			ListofLinkedLists.Add(HeadofLinkList);
 		}
 
 		//helper functions
-		private int nodeAddress = 0;
-		private ContextMenu AddContextMenu()
+
+		private ContextMenu AddContextMenu(string nodeAddessstr)
 		{
+			
 			ContextMenu cm = new ContextMenu();
 
 			MenuItem add = new MenuItem();
 			add.Header = "Add";
 			add.Command = AddNode;
-			add.CommandParameter = "Add" + Convert.ToString(++nodeAddress);
-			add.Tag = "Add" + Convert.ToString(++nodeAddress);
+			add.CommandParameter = nodeAddessstr;
 
 			MenuItem rem = new MenuItem();
 			rem.Header = "Remove";
 			rem.Command = RemoveNode;
-			rem.CommandParameter = "Remove" + Convert.ToString(++nodeAddress);
-			rem.Tag = "Remove" + Convert.ToString(++nodeAddress);
-
+			
 			MenuItem chv = new MenuItem();
 			chv.Header = "Change Value";
 			chv.Command = ChangeValue;
-			chv.CommandParameter = "Change Value" + Convert.ToString(++nodeAddress);
-			chv.Tag = "Change Value" + Convert.ToString(++nodeAddress);
 
 			cm.Items.Add(add);
 			cm.Items.Add(rem);
@@ -144,15 +152,19 @@ namespace LinkedListWPFSimulator.ViewModels
 			return cm;
 		}
 
-		private Button CreateNode()
+		private Button CreateNode(string NodeValue)
 		{
+			++nodeAddress;
+			string nodeAddressStr = "Node" + Convert.ToString(nodeAddress);
+
 			Button btn = new Button();
-			btn.Content = HeadNode;
+			btn.Content = NodeValue;
 			btn.MinHeight = 50;
 			btn.MinWidth = 50;
 			btn.Margin = new Thickness(0);
+			btn.Name = nodeAddressStr;
 
-			btn.ContextMenu = AddContextMenu();
+			btn.ContextMenu = AddContextMenu(nodeAddressStr);
 			return btn;
 		}
 

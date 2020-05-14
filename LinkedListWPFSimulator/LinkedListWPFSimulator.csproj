@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -56,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\DelegateCommands.cs" />
+    <Compile Include="Converter\YourConverter.cs" />
     <Compile Include="Events\LinkedListViewModelEvents.cs" />
     <Compile Include="ViewModels\LinkedListViewModel.cs" />
     <Page Include="MainWindow.xaml">

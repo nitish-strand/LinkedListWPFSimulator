@@ -7,6 +7,10 @@ using System.Collections.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Xaml;
+using System.Windows.Data;
+using System.Globalization;
+using LinkedListWPFSimulator.Converter;
+using Microsoft.VisualBasic;
 
 namespace LinkedListWPFSimulator.ViewModels
 {
@@ -19,12 +23,25 @@ namespace LinkedListWPFSimulator.ViewModels
 			AddNode = new DelegateCommands(AddNodeExecute);
 			RemoveNode = new DelegateCommands(RemoveNodeExecute);
 			ChangeValue = new DelegateCommands(ChangeValueExecute);
+			NewNodeValueCmd = new DelegateCommands(NewNodeValueCmdExecute);
 		}
 
 		
 
 		// fields
 		public string Title { get; private set; } = "Linked List Simulator";
+
+		private string newNodeValue;
+
+		public string NewNodeValue
+		{
+			get { return newNodeValue; }
+			set
+			{
+				newNodeValue = value;
+				OnPropertyChanged("NewNodeValue");
+			}
+		}
 		
 		private string _headNode;
 		public string HeadNode
@@ -42,7 +59,7 @@ namespace LinkedListWPFSimulator.ViewModels
 
 		//Commands
 		public ICommand PushNewHead { get; set; }
-
+		public ICommand NewNodeValueCmd { get; set; }
 
 
 		//INotifyPropertyChanged
@@ -55,12 +72,68 @@ namespace LinkedListWPFSimulator.ViewModels
 		}
 
 		//Make Command functions
+		private void NewNodeValueCmdExecute(object obj)
+		{
+			NewNodeValue = obj.ToString();
+		}
 
 		public ICommand AddNode { get; set; }
 
 		private void AddNodeExecute(object obj)
 		{
-			MessageBox.Show("Add node");
+			var result = Interaction.InputBox("Question?", "Title");
+			Console.WriteLine(result);
+
+			var valueBox = new Window();
+			valueBox.Title = "Enter value of the Node";
+			valueBox.Height = 150;
+			valueBox.Width = 350;
+			valueBox.Name = "NodeValueWindow";
+
+			StackPanel panel = new StackPanel();
+			panel.Orientation = Orientation.Horizontal;
+
+			Label nodeValueLabel = new Label();
+			nodeValueLabel.Content = "Enter:- ";
+			
+
+			TextBox tb = new TextBox();
+			tb.Name = "nodeValue";
+			tb.ToolTip = "Enter value.";
+			tb.Width = 100;
+			tb.Height = 25;
+
+			Button button = new Button();
+			button.Content = "Ok";
+			button.Width = 50;
+			button.Margin = new Thickness(5);
+			button.Command = NewNodeValueCmd;
+			
+
+			Binding bindingValue = new Binding();
+			bindingValue.ElementName = "nodeValue";
+
+			Binding bindingWindow = new Binding();
+			bindingWindow.ElementName = "NodeValueWindow";
+
+			/*
+			MultiBinding multiBinding = new MultiBinding();
+			multiBinding.Bindings.Add(bindingValue);
+			multiBinding.Bindings.Add(bindingWindow);
+			*/
+
+			button.CommandParameter = bindingValue;
+
+			panel.Children.Add(nodeValueLabel);
+			panel.Children.Add(tb);
+			panel.Children.Add(button);
+			panel.Height = 35;
+			panel.Margin = new Thickness(10);
+
+			valueBox.Content = panel;
+			valueBox.Show();
+
+
 			System.Console.WriteLine(obj.ToString());
 
 			foreach (ListBox lists in ListofLinkedLists)
@@ -71,7 +144,7 @@ namespace LinkedListWPFSimulator.ViewModels
 					LinkedList.Add(btn);
 					if (btn.Name.Equals(obj.ToString()))
 					{
-						LinkedList.Add(CreateNode("NewNode"));
+						LinkedList.Add(CreateNode(NewNodeValue));
 						//lists.ItemsSource.Add(CreateNode("NewNode"));
 					}
 				}
@@ -116,10 +189,10 @@ namespace LinkedListWPFSimulator.ViewModels
 			ListBox HeadofLinkList = new ListBox();
 			HeadofLinkList.ItemsSource = LinkedList;
 			
-			var nw = new FrameworkElementFactory(typeof(WrapPanel));
+			var wrappanel = new FrameworkElementFactory(typeof(WrapPanel));
 
 			ItemsPanelTemplate panelTemp = new ItemsPanelTemplate();
-			panelTemp.VisualTree = nw;
+			panelTemp.VisualTree = wrappanel;
 
 			HeadofLinkList.ItemsPanel = panelTemp;
 			ListofLinkedLists.Add(HeadofLinkList);
@@ -169,4 +242,6 @@ namespace LinkedListWPFSimulator.ViewModels
 		}
 
 	}
+
+	
 }

@@ -23,25 +23,13 @@ namespace LinkedListWPFSimulator.ViewModels
 			AddNode = new DelegateCommands(AddNodeExecute);
 			RemoveNode = new DelegateCommands(RemoveNodeExecute);
 			ChangeValue = new DelegateCommands(ChangeValueExecute);
-			NewNodeValueCmd = new DelegateCommands(NewNodeValueCmdExecute);
 		}
 
-		
 
 		// fields
 		public string Title { get; private set; } = "Linked List Simulator";
 
 		private string newNodeValue;
-
-		public string NewNodeValue
-		{
-			get { return newNodeValue; }
-			set
-			{
-				newNodeValue = value;
-				OnPropertyChanged("NewNodeValue");
-			}
-		}
 		
 		private string _headNode;
 		public string HeadNode
@@ -72,70 +60,38 @@ namespace LinkedListWPFSimulator.ViewModels
 		}
 
 		//Make Command functions
-		private void NewNodeValueCmdExecute(object obj)
-		{
-			NewNodeValue = obj.ToString();
-		}
 
 		public ICommand AddNode { get; set; }
 
 		private void AddNodeExecute(object obj)
 		{
-			var result = Interaction.InputBox("Question?", "Title");
-			Console.WriteLine(result);
+			newNodeValue = Interaction.InputBox("Enter new node value here", "Newnode Value");
+			if (newNodeValue != "")
+			{
+				foreach (ListBox lists in ListofLinkedLists)
+				{
+					LinkedList = new ObservableCollection<Button>();
+					foreach (Button btn in lists.ItemsSource)
+					{
+						LinkedList.Add(btn);
+						if (btn.Name.Equals(obj.ToString()))
+						{
+							LinkedList.Add(CreateNode(newNodeValue));
+						}
+					}
+					lists.ItemsSource = LinkedList;
+				}
+			}
+			else
+			{
+				MessageBox.Show("Please enter value to add node.");
+			}
+		}
 
-			var valueBox = new Window();
-			valueBox.Title = "Enter value of the Node";
-			valueBox.Height = 150;
-			valueBox.Width = 350;
-			valueBox.Name = "NodeValueWindow";
+		public ICommand RemoveNode { get; set; }
 
-			StackPanel panel = new StackPanel();
-			panel.Orientation = Orientation.Horizontal;
-
-			Label nodeValueLabel = new Label();
-			nodeValueLabel.Content = "Enter:- ";
-			
-
-			TextBox tb = new TextBox();
-			tb.Name = "nodeValue";
-			tb.ToolTip = "Enter value.";
-			tb.Width = 100;
-			tb.Height = 25;
-
-			Button button = new Button();
-			button.Content = "Ok";
-			button.Width = 50;
-			button.Margin = new Thickness(5);
-			button.Command = NewNodeValueCmd;
-			
-
-			Binding bindingValue = new Binding();
-			bindingValue.ElementName = "nodeValue";
-
-			Binding bindingWindow = new Binding();
-			bindingWindow.ElementName = "NodeValueWindow";
-
-			/*
-			MultiBinding multiBinding = new MultiBinding();
-			multiBinding.Bindings.Add(bindingValue);
-			multiBinding.Bindings.Add(bindingWindow);
-			*/
-
-			button.CommandParameter = bindingValue;
-
-			panel.Children.Add(nodeValueLabel);
-			panel.Children.Add(tb);
-			panel.Children.Add(button);
-			panel.Height = 35;
-			panel.Margin = new Thickness(10);
-
-			valueBox.Content = panel;
-			valueBox.Show();
-
-
-			System.Console.WriteLine(obj.ToString());
-
+		private void RemoveNodeExecute(object obj)
+		{
 			foreach (ListBox lists in ListofLinkedLists)
 			{
 				LinkedList = new ObservableCollection<Button>();
@@ -144,28 +100,40 @@ namespace LinkedListWPFSimulator.ViewModels
 					LinkedList.Add(btn);
 					if (btn.Name.Equals(obj.ToString()))
 					{
-						LinkedList.Add(CreateNode(NewNodeValue));
-						//lists.ItemsSource.Add(CreateNode("NewNode"));
+						LinkedList.Remove(btn);
 					}
 				}
 				lists.ItemsSource = LinkedList;
 			}
-
-		}
-
-		public ICommand RemoveNode { get; set; }
-
-		private void RemoveNodeExecute(object obj)
-		{
-			MessageBox.Show("Remove node");
-			System.Console.WriteLine(obj.ToString());
+			
 		}
 
 		public ICommand ChangeValue { get; set; }
-
+		private string reNewNodeValue;
 		private void ChangeValueExecute(object obj)
 		{
-			MessageBox.Show("Change node value");
+			reNewNodeValue = Interaction.InputBox("Enter new value of the current node", "Enter new value");
+			if (reNewNodeValue != "")
+			{
+				foreach (ListBox lists in ListofLinkedLists)
+				{
+					LinkedList = new ObservableCollection<Button>();
+					foreach (Button btn in lists.ItemsSource)
+					{
+						LinkedList.Add(btn);
+						if (btn.Name.Equals(obj.ToString()))
+						{
+							LinkedList.Remove(btn);
+							LinkedList.Add(CreateNode(reNewNodeValue));
+						}
+					}
+					lists.ItemsSource = LinkedList;
+				}
+			}
+			else
+			{
+				MessageBox.Show("Please enter value to add node.");
+			}
 		}
 
 		private int nodeAddress = 0;
@@ -213,10 +181,12 @@ namespace LinkedListWPFSimulator.ViewModels
 			MenuItem rem = new MenuItem();
 			rem.Header = "Remove";
 			rem.Command = RemoveNode;
-			
+			rem.CommandParameter = nodeAddessstr;
+
 			MenuItem chv = new MenuItem();
 			chv.Header = "Change Value";
 			chv.Command = ChangeValue;
+			chv.CommandParameter = nodeAddessstr;
 
 			cm.Items.Add(add);
 			cm.Items.Add(rem);
